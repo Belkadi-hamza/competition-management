@@ -3,39 +3,28 @@ import { useAuth } from './hooks/useAuth';
 import { useTournament } from './hooks/useTournament';
 import AuthGuard from './components/AuthGuard';
 import AuthModal from './components/AuthModal';
-import TournamentDashboard from './components/TournamentDashboard';
 import TournamentBracket from './components/TournamentBracket';
-import PlayerManagement from './components/PlayerManagement';
 import MatchModal from './components/MatchModal';
+import DatabaseSeeder from './components/DatabaseSeeder';
+import ClubManagement from './components/ClubManagement';
+import CategoryManagement from './components/CategoryManagement';
+import CompetitionManagement from './components/CompetitionManagement';
 import { Match, Player } from './types/tournament';
-import { 
-  Trophy, 
-  Users, 
-  Settings, 
-  Home, 
-  Menu, 
-  X,
-  Target,
-  Award,
-  LogOut,
-  User
-} from 'lucide-react';
+import { Trophy, Menu, X, Target, Award, LogOut, User, Building, Flag } from 'lucide-react';
 
-type ViewType = 'dashboard' | 'bracket' | 'players' | 'settings';
+type ViewType = 'competitions' | 'bracket' | 'clubs' | 'categories';
 
 function App() {
   const { user, logout } = useAuth();
   const { 
-    tournaments, 
+    tournaments,
     activeTournament, 
-    createTournament, 
     updateMatchResult, 
-    addPlayer,
     startTournament,
     setActiveTournament 
   } = useTournament();
 
-  const [currentView, setCurrentView] = useState<ViewType>('dashboard');
+  const [currentView, setCurrentView] = useState<ViewType>('competitions');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -53,113 +42,23 @@ function App() {
     }
   };
 
-  const handleAddPlayer = (player: Player) => {
-    if (activeTournament) {
-      addPlayer(activeTournament.id, player);
-    }
-  };
-
   const sidebarItems = [
-    { id: 'dashboard', label: 'Tableau de Bord', icon: Home },
+    { id: 'competitions', label: 'Compétitions', icon: Flag },
     { id: 'bracket', label: 'Arbre de Tournoi', icon: Target },
-    { id: 'players', label: 'Joueurs', icon: Users },
-    { id: 'settings', label: 'Paramètres', icon: Settings },
+    { id: 'clubs', label: 'Clubs', icon: Building },
+    { id: 'categories', label: 'Catégories', icon: Award },
   ];
 
   const renderContent = () => {
     switch (currentView) {
-      case 'dashboard':
-        return (
-          <TournamentDashboard
-            tournaments={tournaments}
-            activeTournament={activeTournament}
-            onSelectTournament={setActiveTournament}
-            onStartTournament={startTournament}
-          />
-        );
+      case 'competitions':
+        return <CompetitionManagement />;
       case 'bracket':
-        return activeTournament ? (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800">{activeTournament.name}</h1>
-                <p className="text-gray-600">{activeTournament.category} • {activeTournament.players.length} participants</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Award className="w-5 h-5 text-yellow-600" />
-                <span className="text-sm font-medium text-gray-600">
-                  {activeTournament.status === 'completed' ? 'Terminé' : 
-                   activeTournament.status === 'active' ? 'En cours' : 'Inscription'}
-                </span>
-              </div>
-            </div>
-            <TournamentBracket
-              matches={activeTournament.matches}
-              tournament={activeTournament}
-              onMatchClick={handleMatchClick}
-            />
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Trophy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-800 mb-2">Aucun tournoi sélectionné</h3>
-            <p className="text-gray-600">Sélectionnez un tournoi dans le tableau de bord pour voir l'arbre.</p>
-          </div>
-        );
-      case 'players':
-        return activeTournament ? (
-          <PlayerManagement
-            players={activeTournament.players}
-            onAddPlayer={handleAddPlayer}
-            onEditPlayer={(player) => {
-              // Logique de modification du joueur
-            }}
-            onDeletePlayer={(playerId) => {
-              // Logique de suppression du joueur
-            }}
-          />
-        ) : (
-          <div className="text-center py-12">
-            <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-800 mb-2">Aucun tournoi sélectionné</h3>
-            <p className="text-gray-600">Sélectionnez un tournoi pour gérer les joueurs.</p>
-          </div>
-        );
-      case 'settings':
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Paramètres</h2>
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">Configuration du Tournoi</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nom du tournoi
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nom du tournoi"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Catégorie
-                  </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Senior Mixte</option>
-                    <option>Junior Mixte</option>
-                    <option>Cadet Mixte</option>
-                    <option>Vétéran Mixte</option>
-                  </select>
-                </div>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                  Créer nouveau tournoi
-                </button>
-              </div>
-            </div>
-          </div>
-        );
+        return <TournamentBracket />;
+      case 'clubs':
+        return <ClubManagement />;
+      case 'categories':
+        return <CategoryManagement />;
       default:
         return null;
     }
@@ -179,24 +78,16 @@ function App() {
             </button>
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                <Trophy className="w-5 h-5 text-white" />
+                <Flag className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">TaeKwonDo Pro</h1>
-                <p className="text-xs text-gray-500">Système de Tournoi</p>
+                <h1 className="text-xl font-bold text-gray-800">Compétitions TaeKwonDo</h1>
+                <p className="text-xs text-gray-500">Système de gestion des compétitions</p>
               </div>
             </div>
           </div>
           
           <div className="flex items-center space-x-4">
-            {activeTournament && (
-              <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
-                <span className="font-medium">{activeTournament.name}</span>
-                <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                <span>{activeTournament.players.length} participants</span>
-              </div>
-            )}
-            
             {user ? (
               <div className="flex items-center space-x-3">
                 <div className="hidden sm:flex items-center space-x-2">
@@ -228,9 +119,9 @@ function App() {
       <AuthGuard fallback={
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <Trophy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Bienvenue sur TaeKwonDo Pro</h2>
-            <p className="text-gray-600 mb-6">Connectez-vous pour accéder au système de tournoi.</p>
+            <Flag className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Bienvenue sur Compétitions TaeKwonDo</h2>
+            <p className="text-gray-600 mb-6">Connectez-vous pour accéder au système de compétitions.</p>
             <div className="space-y-4">
               <button
                 onClick={() => setShowAuthModal(true)}

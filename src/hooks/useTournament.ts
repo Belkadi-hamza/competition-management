@@ -154,33 +154,7 @@ export const useTournament = () => {
   }, []);
 
   useEffect(() => {
-    // Simulation de données initiales
-    const samplePlayers: Player[] = [
-  { id: '1', name: 'Kim Min-jun', category: 'Senior', weight: 60, age: 24, belt: 'Dan 3', club: 'Seoul Tigers' },
-  { id: '2', name: 'Park Ji-hoon', category: 'Senior', weight: 60, age: 26, belt: 'Dan 4', club: 'Busan Dragons' },
-  { id: '3', name: 'Lee Soo-jin', category: 'Senior', weight: 60, age: 23, belt: 'Dan 2', club: 'Incheon Eagles' },
-  { id: '4', name: 'Choi Hye-won', category: 'Senior', weight: 60, age: 25, belt: 'Dan 3', club: 'Daegu Lions' },
-  { id: '5', name: 'Jung Tae-hyun', category: 'Senior', weight: 60, age: 27, belt: 'Dan 5', club: 'Gwangju Wolves' },
-  { id: '6', name: 'Yoon So-young', category: 'Senior', weight: 60, age: 22, belt: 'Dan 1', club: 'Ulsan Sharks' },
-  { id: '7', name: 'Lim Jae-sung', category: 'Senior', weight: 60, age: 28, belt: 'Dan 4', club: 'Suwon Panthers' },
-  { id: '8', name: 'Han Min-seo', category: 'Senior', weight: 60, age: 21, belt: 'Dan 2', club: 'Jeonju Hawks' },
-  { id: '9', name: 'Kim Soo-jin', category: 'Senior', weight: 60, age: 24, belt: 'Dan 3', club: 'Busan Tigers' },
-  { id: '10', name: 'Park Dong-hyun', category: 'Senior', weight: 60, age: 26, belt: 'Dan 4', club: 'Seoul Dragons' },
-  { id: '11', name: 'Lee Hye-jin', category: 'Senior', weight: 60, age: 23, belt: 'Dan 2', club: 'Incheon Eagles' },
-  { id: '12', name: 'Choi Min-ho', category: 'Senior', weight: 60, age: 25, belt: 'Dan 3', club: 'Daegu Lions' },
-  { id: '13', name: 'Jung So-young', category: 'Senior', weight: 60, age: 22, belt: 'Dan 1', club: 'Gwangju Wolves' },
-  { id: '14', name: 'Yoon Tae-jun', category: 'Senior', weight: 60, age: 27, belt: 'Dan 5', club: 'Ulsan Sharks' },
-  { id: '15', name: 'Lim Hye-won', category: 'Senior', weight: 60, age: 21, belt: 'Dan 2', club: 'Suwon Panthers' },
-  { id: '16', name: 'Han Jae-min', category: 'Senior', weight: 60, age: 28, belt: 'Dan 4', club: 'Jeonju Hawks' },
-  { id: '17', name: 'Kwon Hyuk-soo', category: 'Senior', weight: 60, age: 25, belt: 'Dan 2', club: 'Changwon Rams' },
-  { id: '18', name: 'Shin Ji-eun', category: 'Senior', weight: 60, age: 23, belt: 'Dan 3', club: 'Pohang Vipers' },
-  { id: '19', name: 'Baek Sung-hoon', category: 'Senior', weight: 60, age: 26, belt: 'Dan 4', club: 'Cheonan Bears' },
-  { id: '20', name: 'Go Min-jung', category: 'Senior', weight: 60, age: 22, belt: 'Dan 1', club: 'Daejeon Phoenix' }
-];
-
-    if (tournaments.length === 0) {
-      createTournament('Championnat National Senior', 'Senior Mixte', samplePlayers);
-    }
+    // Initialize with empty tournaments - data will come from database
   }, [tournaments.length, createTournament]);
 
   return {

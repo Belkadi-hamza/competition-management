@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, Eye, EyeOff, Chrome } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 interface AuthModalProps {
@@ -22,34 +22,26 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    try {
-      if (isLogin) {
-        await login(formData.email, formData.password);
-      } else {
-        if (formData.password !== formData.confirmPassword) {
-          alert('Les mots de passe ne correspondent pas');
-          return;
-        }
-        if (formData.password.length < 6) {
-          alert('Le mot de passe doit contenir au moins 6 caractères');
-          return;
-        }
-        await register(formData.email, formData.password, formData.fullName);
+    if (isLogin) {
+      const result = await login(formData.email, formData.password);
+      if (result) {
+        onClose();
+        setFormData({ email: '', password: '', fullName: '', confirmPassword: '' });
       }
-      onClose();
-      setFormData({ email: '', password: '', fullName: '', confirmPassword: '' });
-    } catch (error) {
-      console.error('Erreur d\'authentification:', error);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      await loginWithGoogle();
-      onClose();
-      setFormData({ email: '', password: '', fullName: '', confirmPassword: '' });
-    } catch (error) {
-      console.error('Erreur de connexion Google:', error);
+    } else {
+      if (formData.password !== formData.confirmPassword) {
+        alert('Les mots de passe ne correspondent pas');
+        return;
+      }
+      if (formData.password.length < 6) {
+        alert('Le mot de passe doit contenir au moins 6 caractères');
+        return;
+      }
+      const result = await register(formData.email, formData.password, formData.fullName);
+      if (result) {
+        onClose();
+        setFormData({ email: '', password: '', fullName: '', confirmPassword: '' });
+      }
     }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,25 +82,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* Google Login Button */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={loading}
-            className="w-full flex items-center justify-center space-x-2 bg-white border-2 border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 hover:border-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
-          >
-            <Chrome className="w-5 h-5 text-blue-500" />
-            <span>Continuer avec Google</span>
-          </button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">ou</span>
-            </div>
-          </div>
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
