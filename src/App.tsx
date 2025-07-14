@@ -9,6 +9,7 @@ import DatabaseSeeder from './components/DatabaseSeeder';
 import ClubManagement from './components/ClubManagement';
 import CategoryManagement from './components/CategoryManagement';
 import CompetitionManagement from './components/CompetitionManagement';
+import Footer from './components/Footer';
 import { Match, Player } from './types/tournament';
 import { Trophy, Menu, X, Target, Award, LogOut, User, Building, Flag } from 'lucide-react';
 
@@ -65,7 +66,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="flex items-center justify-between px-4 py-3">
@@ -81,7 +82,7 @@ function App() {
                 <Flag className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Compétitions TaeKwonDo</h1>
+                <h1 className="text-xl font-bold text-gray-800">TKD Competition Management</h1>
                 <p className="text-xs text-gray-500">Système de gestion des compétitions</p>
               </div>
             </div>
@@ -136,7 +137,7 @@ function App() {
           </div>
         </div>
       }>
-        <div className="flex">
+        <div className="flex flex-1">
           {/* Sidebar */}
           <aside className={`${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -186,6 +187,9 @@ function App() {
           </main>
         </div>
       </AuthGuard>
+
+      {/* Pied de page */}
+      <Footer />
 
       {/* Modal pour les matchs */}
       {selectedMatch && (
