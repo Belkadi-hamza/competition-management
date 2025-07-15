@@ -590,16 +590,16 @@ const TournamentBracket: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-800">Arbre de Tournoi</h2>
+        <h2 className="text-3xl font-bold text-white">Arbre de Tournoi</h2>
       </div>
 
       {/* Selection Form */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-medium text-gray-800 mb-4">Sélection de la compétition et catégorie</h3>
+      <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg p-6">
+        <h3 className="text-lg font-medium text-white mb-4">Sélection de la compétition et catégorie</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-white/80 mb-2">
               <Flag className="w-4 h-4 inline mr-1" />
               Compétition
             </label>
@@ -609,7 +609,7 @@ const TournamentBracket: React.FC = () => {
                 setSelectedCompetition(e.target.value);
                 setSelectedCategory('');
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             >
               <option value="">Sélectionner une compétition</option>
               {competitions.map(competition => (
@@ -621,7 +621,7 @@ const TournamentBracket: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-white/80 mb-2">
               <Target className="w-4 h-4 inline mr-1" />
               Catégorie
             </label>
@@ -629,7 +629,7 @@ const TournamentBracket: React.FC = () => {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               disabled={!selectedCompetition}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 disabled:opacity-50 transition-all"
             >
               <option value="">Sélectionner une catégorie</option>
               {availableCategories.map(category => (
@@ -642,20 +642,20 @@ const TournamentBracket: React.FC = () => {
         </div>
 
         {selectedCompetition && selectedCategory && (
-          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <div className="mt-4 p-4 bg-blue-500/20 border border-blue-500/30 rounded-xl">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-blue-800">
+                <p className="text-sm font-medium text-blue-200">
                   {selectedComp?.nom} - {selectedCat?.nom}
                 </p>
-                <p className="text-sm text-blue-600">
+                <p className="text-sm text-blue-300">
                   {tournamentPlayers.length} joueur(s) éligible(s) trouvé(s)
                 </p>
               </div>
               {tournamentPlayers.length > 0 && (
                 <button
                   onClick={handlePrint}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 shadow-lg"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Imprimer</span>
@@ -668,24 +668,24 @@ const TournamentBracket: React.FC = () => {
 
       {/* Tournament Bracket Display */}
       {tournamentPlayers.length > 0 ? (
-        <div className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-x-auto">
+        <div className="p-6 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-lg overflow-x-auto">
           {/* Navigation between groups */}
           {playerGroups.length > 1 && (
             <div className="mb-6 flex items-center justify-center space-x-4">
               <button
                 onClick={() => setCurrentGroupIndex(Math.max(0, currentGroupIndex - 1))}
                 disabled={currentGroupIndex === 0}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
               >
                 <ChevronLeft className="w-5 h-5" />
                 <span>Groupe Précédent</span>
               </button>
               
               <div className="text-center">
-                <div className="text-lg font-bold text-gray-800">
+                <div className="text-lg font-bold text-white">
                   Groupe {currentGroupIndex + 1} sur {playerGroups.length}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-white/70">
                   {selectedCat?.nom} {getWeightCategory(currentGroup)}
                 </div>
               </div>
@@ -693,7 +693,7 @@ const TournamentBracket: React.FC = () => {
               <button
                 onClick={() => setCurrentGroupIndex(Math.min(playerGroups.length - 1, currentGroupIndex + 1))}
                 disabled={currentGroupIndex === playerGroups.length - 1}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
               >
                 <span>Groupe Suivant</span>
                 <ChevronRight className="w-5 h-5" />
@@ -702,12 +702,12 @@ const TournamentBracket: React.FC = () => {
           )}
 
           {/* Tournament Header */}
-          <div className="mb-6 text-center bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 rounded-lg shadow text-white">
+          <div className="mb-6 text-center bg-gradient-to-r from-red-500 to-orange-500 px-6 py-4 rounded-2xl shadow-lg text-white">
             <h2 className="text-2xl font-bold mb-2">🥋 TOURNOI D'ÉLIMINATION</h2>
-            <p className="text-blue-100">
+            <p className="text-red-100">
               {selectedComp?.nom} - {selectedCat?.nom}
             </p>
-            <p className="text-sm text-blue-200">
+            <p className="text-sm text-red-200">
               Groupe {currentGroupIndex + 1} - {currentGroup.filter(p => p.name !== 'EXEMPT').length} participants
             </p>
           </div>
@@ -734,15 +734,15 @@ const TournamentBracket: React.FC = () => {
                           M ${280 * roundNum + 240} ${120 + idx * 120}
                           L ${280 * nextRound + 40} ${120 + nextMatchPosition * 240 + 60}
                         `}
-                        stroke="#94a3b8"
+                        stroke="rgba(255,255,255,0.3)"
                         strokeWidth="2"
                         strokeDasharray="4,2"
                         fill="none"
                       />
                       {/* Start point */}
-                      <circle cx={280 * roundNum + 240} cy={120 + idx * 120} r="4" fill="#64748b" />
+                      <circle cx={280 * roundNum + 240} cy={120 + idx * 120} r="4" fill="rgba(255,255,255,0.4)" />
                       {/* End point */}
-                      <circle cx={280 * nextRound + 40} cy={120 + nextMatchPosition * 240 + 60} r="4" fill="#64748b" />
+                      <circle cx={280 * nextRound + 40} cy={120 + nextMatchPosition * 240 + 60} r="4" fill="rgba(255,255,255,0.4)" />
                     </g>
                   );
                 });
@@ -767,7 +767,7 @@ const TournamentBracket: React.FC = () => {
                       <div className={`inline-block px-4 py-2 rounded-full shadow-md ${
                         roundName.includes('FINALE') ? 
                           'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white' :
-                          'bg-white border-2 border-blue-600 text-blue-800'
+                          'bg-white/10 border-2 border-white/30 text-white backdrop-blur-sm'
                       }`}>
                         <h3 className="text-sm font-bold uppercase tracking-tight">
                           {roundName}
@@ -791,18 +791,18 @@ const TournamentBracket: React.FC = () => {
                           {/* Match card */}
                           <div className={`border-2 rounded-lg overflow-hidden shadow-sm transition-all ${
                             match.status === 'completed' ? 
-                              'border-green-500 bg-green-50' :
+                              'border-green-400 bg-green-500/20 backdrop-blur-sm' :
                             match.status === 'in-progress' ?
-                              'border-blue-500 bg-blue-50' :
-                              'border-gray-300 bg-white'
+                              'border-blue-400 bg-blue-500/20 backdrop-blur-sm' :
+                              'border-white/30 bg-white/10 backdrop-blur-sm'
                           }`}>
                             {/* Match header */}
                             <div className={`px-3 py-2 flex items-center justify-between ${
                               match.status === 'completed' ? 
-                                'bg-green-600' :
+                                'bg-green-500' :
                               match.status === 'in-progress' ?
-                                'bg-blue-600' :
-                                'bg-gray-600'
+                                'bg-blue-500' :
+                                'bg-white/20'
                             }`}>
                               <span className="text-xs font-semibold text-white uppercase tracking-wider">
                                 Match {match.position + 1}
@@ -816,14 +816,14 @@ const TournamentBracket: React.FC = () => {
                             </div>
                             
                             {/* Players */}
-                            <div className="divide-y divide-gray-200">
+                            <div className="divide-y divide-white/20">
                               <PlayerSlot 
                                 player={match.player1} 
                                 isWinner={match.winner?.id === match.player1?.id}
                                 score={match.player1Score}
                               />
-                              <div className="h-8 flex items-center justify-center bg-gray-100">
-                                <span className="text-xs font-bold text-gray-600">VS</span>
+                              <div className="h-8 flex items-center justify-center bg-white/5">
+                                <span className="text-xs font-bold text-white/70">VS</span>
                               </div>
                               <PlayerSlot 
                                 player={match.player2} 
@@ -834,9 +834,9 @@ const TournamentBracket: React.FC = () => {
                             
                             {/* Actions */}
                             {match.status !== 'completed' && (
-                              <div className="px-2 py-1 bg-gray-50 border-t border-gray-200 flex justify-end">
+                              <div className="px-2 py-1 bg-white/5 border-t border-white/20 flex justify-end">
                                 <button 
-                                  className="text-xs px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                                  className="text-xs px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
                                   onClick={() => handleSetWinner(match, match.player1)}
                                   disabled={!match.player1 || match.player1.name === 'EXEMPT'}
                                 >
@@ -857,7 +857,7 @@ const TournamentBracket: React.FC = () => {
                 <div className="ml-8 flex flex-col items-center">
                   <div className="mb-4 w-full text-center">
                     <div className="inline-block px-4 py-2 rounded-full shadow-md bg-gradient-to-r from-yellow-400 to-yellow-500">
-                      <h3 className="text-sm font-bold uppercase tracking-tight text-yellow-900">
+                      <h3 className="text-sm font-bold uppercase tracking-tight text-white">
                         CHAMPION
                       </h3>
                     </div>
@@ -865,24 +865,24 @@ const TournamentBracket: React.FC = () => {
                   
                   <div className="relative mt-8">
                     <div className="absolute -top-4 -left-4 -right-4 -bottom-4 bg-yellow-200 rounded-xl opacity-30"></div>
-                    <div className="relative bg-gradient-to-br from-yellow-400 to-yellow-500 border-2 border-yellow-600 px-8 py-6 rounded-lg shadow-lg text-center">
+                    <div className="relative bg-gradient-to-br from-yellow-400 to-yellow-500 border-2 border-yellow-600 px-8 py-6 rounded-2xl shadow-lg text-center">
                       <div className="flex justify-center mb-3">
-                        <Trophy className="w-12 h-12 text-yellow-800" />
+                        <Trophy className="w-12 h-12 text-white" />
                       </div>
-                      <h3 className="font-bold text-xl uppercase tracking-wide mb-4 text-yellow-900">
+                      <h3 className="font-bold text-xl uppercase tracking-wide mb-4 text-white">
                         Vainqueur
                       </h3>
                       {(() => {
                         const finalMatch = rounds[totalRounds]?.[0];
                         return finalMatch?.winner ? (
                           <div className="animate-bounce">
-                            <p className="font-bold text-lg text-yellow-900">{finalMatch.winner.name}</p>
-                            <p className="text-sm text-yellow-800 font-medium">
+                            <p className="font-bold text-lg text-white">{finalMatch.winner.name}</p>
+                            <p className="text-sm text-yellow-100 font-medium">
                               {finalMatch.winner.club}
                             </p>
                           </div>
                         ) : (
-                          <p className="text-sm text-yellow-800 font-medium italic">
+                          <p className="text-sm text-yellow-100 font-medium italic">
                             À déterminer
                           </p>
                         );
@@ -897,31 +897,35 @@ const TournamentBracket: React.FC = () => {
           {/* Legend */}
           <div className="mt-8 flex justify-center space-x-4">
             {[
-              { label: "Match terminé", color: "bg-green-500", border: "border-green-600" },
-              { label: "Match en cours", color: "bg-blue-500", border: "border-blue-600" },
-              { label: "Match à venir", color: "bg-gray-400", border: "border-gray-500" },
+              { label: "Match terminé", color: "bg-green-400", border: "border-green-500" },
+              { label: "Match en cours", color: "bg-blue-400", border: "border-blue-500" },
+              { label: "Match à venir", color: "bg-white/40", border: "border-white/50" },
               { label: "Exempt", color: "bg-purple-400", border: "border-purple-500" }
             ].map((item, idx) => (
               <div key={idx} className="flex items-center space-x-2">
                 <div className={`w-4 h-4 rounded-full ${item.color} ${item.border} border-2`}></div>
-                <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                <span className="text-sm font-medium text-white/80">{item.label}</span>
               </div>
             ))}
           </div>
         </div>
       ) : selectedCompetition && selectedCategory ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
-          <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-800 mb-2">Aucun joueur éligible</h3>
-          <p className="text-gray-600">
+        <div className="text-center py-12 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg">
+          <div className="p-4 bg-gradient-to-r from-gray-500/20 to-gray-600/20 rounded-2xl w-fit mx-auto mb-4">
+            <Users className="w-16 h-16 text-white/60" />
+          </div>
+          <h3 className="text-lg font-medium text-white mb-2">Aucun joueur éligible</h3>
+          <p className="text-white/70">
             Aucun joueur ne correspond aux critères de cette catégorie.
           </p>
         </div>
       ) : (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
-          <Play className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-800 mb-2">Sélectionnez une compétition et catégorie</h3>
-          <p className="text-gray-600">
+        <div className="text-center py-12 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg">
+          <div className="p-4 bg-gradient-to-r from-blue-500/20 to-blue-600/20 rounded-2xl w-fit mx-auto mb-4">
+            <Play className="w-16 h-16 text-blue-400" />
+          </div>
+          <h3 className="text-lg font-medium text-white mb-2">Sélectionnez une compétition et catégorie</h3>
+          <p className="text-white/70">
             Choisissez une compétition et une catégorie pour générer l'arbre de tournoi.
           </p>
         </div>

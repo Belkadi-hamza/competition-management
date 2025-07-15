@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCompetitions, Competition } from '../hooks/useCompetitions';
 import { useClubs, Joueur } from '../hooks/useClubs';
-import { Plus, Edit2, Trash2, Trophy, MapPin, Users, UserPlus, Building, Target } from 'lucide-react';
+import { Plus, Edit2, Trash2, Trophy, MapPin, Users, UserPlus, Building, Target, X } from 'lucide-react';
 
 const CompetitionManagement: React.FC = () => {
   const { 
@@ -109,10 +109,10 @@ const CompetitionManagement: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-800">Gestion des Compétitions</h2>
+        <h2 className="text-3xl font-bold text-white">Gestion des Compétitions</h2>
         <button
           onClick={() => setShowCompetitionForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-2xl hover:from-red-600 hover:to-orange-600 transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           <Plus className="w-5 h-5" />
           <span>Nouvelle Compétition</span>
@@ -121,44 +121,52 @@ const CompetitionManagement: React.FC = () => {
 
       {/* Statistiques */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow border">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-lg hover:bg-white/15 transition-all duration-300">
           <div className="flex items-center space-x-3">
-            <Trophy className="w-8 h-8 text-yellow-600" />
+            <div className="p-3 bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 rounded-xl">
+              <Trophy className="w-6 h-6 text-yellow-400" />
+            </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Compétitions</p>
-              <p className="text-2xl font-bold text-gray-800">{competitions.length}</p>
+              <p className="text-sm font-medium text-white/70">Total Compétitions</p>
+              <p className="text-2xl font-bold text-white">{competitions.length}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg shadow border">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-lg hover:bg-white/15 transition-all duration-300">
           <div className="flex items-center space-x-3">
-            <Target className="w-8 h-8 text-green-600" />
+            <div className="p-3 bg-gradient-to-r from-green-500/20 to-green-600/20 rounded-xl">
+              <Target className="w-6 h-6 text-green-400" />
+            </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Catégories</p>
-              <p className="text-2xl font-bold text-gray-800">{categories.length}</p>
+              <p className="text-sm font-medium text-white/70">Total Catégories</p>
+              <p className="text-2xl font-bold text-white">{categories.length}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg shadow border">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-lg hover:bg-white/15 transition-all duration-300">
           <div className="flex items-center space-x-3">
-            <Users className="w-8 h-8 text-blue-600" />
+            <div className="p-3 bg-gradient-to-r from-blue-500/20 to-blue-600/20 rounded-xl">
+              <Users className="w-6 h-6 text-blue-400" />
+            </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Compétitions Actives</p>
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-sm font-medium text-white/70">Compétitions Actives</p>
+              <p className="text-2xl font-bold text-white">
                 {competitions.filter(c => c.status === 'active').length}
               </p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg shadow border">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-lg hover:bg-white/15 transition-all duration-300">
           <div className="flex items-center space-x-3">
-            <MapPin className="w-8 h-8 text-purple-600" />
+            <div className="p-3 bg-gradient-to-r from-purple-500/20 to-purple-600/20 rounded-xl">
+              <MapPin className="w-6 h-6 text-purple-400" />
+            </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Villes</p>
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-sm font-medium text-white/70">Villes</p>
+              <p className="text-2xl font-bold text-white">
                 {new Set(competitions.map(c => c.ville)).size}
               </p>
             </div>
@@ -167,27 +175,29 @@ const CompetitionManagement: React.FC = () => {
       </div>
 
       {/* Liste des compétitions */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-800">
+      <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg overflow-hidden">
+        <div className="px-6 py-4 border-b border-white/10">
+          <h3 className="text-lg font-medium text-white">
             Liste des compétitions ({competitions.length})
           </h3>
         </div>
         
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-white/10">
           {competitions.map((competition) => {
             const competitionCategories = getCategoriesByCompetition(competition.id);
             const eligiblePlayers = getEligiblePlayers(competition);
             
             return (
-              <div key={competition.id} className="p-6 hover:bg-gray-50">
+              <div key={competition.id} className="p-6 hover:bg-white/5 transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3">
-                      <Trophy className="w-6 h-6 text-yellow-600" />
+                      <div className="p-2 bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 rounded-lg">
+                        <Trophy className="w-5 h-5 text-yellow-400" />
+                      </div>
                       <div>
-                        <h4 className="text-lg font-semibold text-gray-800">{competition.nom}</h4>
-                        <p className="text-sm text-gray-600 flex items-center space-x-1">
+                        <h4 className="text-lg font-semibold text-white">{competition.nom}</h4>
+                        <p className="text-sm text-white/70 flex items-center space-x-1">
                           <MapPin className="w-4 h-4" />
                           <span>{competition.ville}</span>
                         </p>
@@ -199,18 +209,18 @@ const CompetitionManagement: React.FC = () => {
                         {getStatusText(competition.status)}
                       </span>
                       
-                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                      <div className="flex items-center space-x-1 text-sm text-white/70">
                         <Target className="w-4 h-4" />
                         <span>{competitionCategories.length} catégorie{competitionCategories.length > 1 ? 's' : ''}</span>
                       </div>
                       
-                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                      <div className="flex items-center space-x-1 text-sm text-white/70">
                         <Users className="w-4 h-4" />
                         <span>{eligiblePlayers.length} joueur{eligiblePlayers.length > 1 ? 's' : ''} éligible{eligiblePlayers.length > 1 ? 's' : ''}</span>
                       </div>
                       
                       {competition.date_creation && (
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-white/60">
                           Créée le {new Date(competition.date_creation.toDate()).toLocaleDateString('fr-FR')}
                         </div>
                       )}
@@ -219,18 +229,18 @@ const CompetitionManagement: React.FC = () => {
                     {/* Aperçu des catégories */}
                     {competitionCategories.length > 0 && (
                       <div className="mt-4">
-                        <h5 className="text-sm font-medium text-gray-700 mb-2">Catégories:</h5>
+                        <h5 className="text-sm font-medium text-white/80 mb-2">Catégories:</h5>
                         <div className="flex flex-wrap gap-2">
                           {competitionCategories.slice(0, 3).map((categorie) => (
                             <span
                               key={categorie.id}
-                              className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800"
+                              className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-medium bg-white/10 text-white/80 border border-white/20"
                             >
                               {categorie.nom} ({categorie.poids_min}-{categorie.poids_max}kg)
                             </span>
                           ))}
                           {competitionCategories.length > 3 && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-200 text-gray-600">
+                            <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-medium bg-white/5 text-white/60 border border-white/10">
                               +{competitionCategories.length - 3} autres
                             </span>
                           )}
@@ -242,7 +252,7 @@ const CompetitionManagement: React.FC = () => {
                   <div className="ml-6 flex flex-col space-y-2">
                     <button
                       onClick={() => handleManagePlayers(competition)}
-                      className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors text-sm"
+                      className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all duration-300 text-sm shadow-lg"
                     >
                       <UserPlus className="w-4 h-4" />
                       <span>Gérer participants</span>
@@ -251,14 +261,14 @@ const CompetitionManagement: React.FC = () => {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEditCompetition(competition)}
-                        className="flex items-center space-x-1 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors text-sm"
+                        className="flex items-center space-x-1 px-3 py-2 text-blue-400 hover:bg-blue-500/20 rounded-xl transition-all duration-300 text-sm"
                       >
                         <Edit2 className="w-4 h-4" />
                         <span>Modifier</span>
                       </button>
                       <button
                         onClick={() => handleDeleteCompetition(competition.id)}
-                        className="flex items-center space-x-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-md transition-colors text-sm"
+                        className="flex items-center space-x-1 px-3 py-2 text-red-400 hover:bg-red-500/20 rounded-xl transition-all duration-300 text-sm"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>Supprimer</span>
@@ -272,12 +282,14 @@ const CompetitionManagement: React.FC = () => {
           
           {competitions.length === 0 && (
             <div className="p-12 text-center">
-              <Trophy className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-800 mb-2">Aucune compétition</h3>
-              <p className="text-gray-600 mb-4">Commencez par créer votre première compétition.</p>
+              <div className="p-4 bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 rounded-2xl w-fit mx-auto mb-4">
+                <Trophy className="w-12 h-12 text-yellow-400" />
+              </div>
+              <h3 className="text-lg font-medium text-white mb-2">Aucune compétition</h3>
+              <p className="text-white/70 mb-6">Commencez par créer votre première compétition.</p>
               <button
                 onClick={() => setShowCompetitionForm(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-2xl hover:from-red-600 hover:to-orange-600 transition-all duration-300 shadow-lg"
               >
                 Créer une compétition
               </button>
@@ -289,16 +301,24 @@ const CompetitionManagement: React.FC = () => {
       {/* Modal Compétition */}
       {showCompetitionForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800">
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl max-w-md w-full">
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
                 {editingCompetition ? 'Modifier la compétition' : 'Nouvelle compétition'}
-              </h3>
+                </h3>
+                <button
+                  onClick={resetCompetitionForm}
+                  className="p-2 hover:bg-white/10 rounded-xl transition-all duration-300"
+                >
+                  <X className="w-5 h-5 text-white/70" />
+                </button>
+              </div>
             </div>
             
             <form onSubmit={handleCompetitionSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-white/80 mb-2">
                   Nom de la compétition
                 </label>
                 <input
@@ -306,13 +326,13 @@ const CompetitionManagement: React.FC = () => {
                   required
                   value={competitionFormData.nom}
                   onChange={(e) => setCompetitionFormData({ ...competitionFormData, nom: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all"
                   placeholder="Ex: Championnat National Junior 2024"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-white/80 mb-2">
                   Ville
                 </label>
                 <input
@@ -320,13 +340,13 @@ const CompetitionManagement: React.FC = () => {
                   required
                   value={competitionFormData.ville}
                   onChange={(e) => setCompetitionFormData({ ...competitionFormData, ville: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all"
                   placeholder="Ex: Casablanca"
                 />
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-500/20 border border-blue-500/30 p-4 rounded-xl">
+                <p className="text-sm text-blue-200">
                   <strong>Note:</strong> Après avoir créé la compétition, vous pourrez ajouter des catégories 
                   dans la section "Catégories\" du menu principal.
                 </p>
@@ -336,14 +356,14 @@ const CompetitionManagement: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+                  className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 px-4 rounded-xl hover:from-red-600 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                 >
                   {loading ? 'Enregistrement...' : (editingCompetition ? 'Modifier' : 'Créer')}
                 </button>
                 <button
                   type="button"
                   onClick={resetCompetitionForm}
-                  className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-white/10 text-white/80 py-3 px-4 rounded-xl hover:bg-white/20 transition-all duration-300"
                 >
                   Annuler
                 </button>
